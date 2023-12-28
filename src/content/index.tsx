@@ -2,16 +2,29 @@ import ReactDOM from "react-dom/client"
 import Movebar from "./components/movebar";
 import {v4 as uuidv4} from "uuid"
 import React from "react";
+import {Modal} from "antd";
+import {ConfigProvider} from 'antd'
+import zhCN from 'antd/lib/locale/zh_CN'
 import 'virtual:uno.css'
 
 export const GoogleSidebar: React.FC = () => {
+  const [modal, contextHolder] = Modal.useModal()
   function toggleRecordBox() {
-    console.log('click!!')
+    const instance = modal.success({
+      title: 'This is a notification message',
+      content: 'This modal will be destroyed when it is closed.',
+    })
+    setTimeout(() => {
+      instance.destroy()
+    }, 2000)
   }
   
   return (
     <>
-      <Movebar toggleRecordBox={toggleRecordBox}/>
+      <ConfigProvider locale={zhCN}>
+        <Movebar toggleRecordBox={toggleRecordBox}/>
+        {contextHolder}
+      </ConfigProvider>
     </>
   )
 }
@@ -19,15 +32,6 @@ export const GoogleSidebar: React.FC = () => {
 const app = document.createElement('div')
 const id = '--crx--content--' + uuidv4()
 app.id = id
-// app.style.cssText = `
-//   position: fixed;
-//   z-index: 2147483647;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   pointer-events: none;
-// `
 document.body.appendChild(app)
 const root = ReactDOM.createRoot(document.getElementById(id)!)
 root.render(<GoogleSidebar/>)
