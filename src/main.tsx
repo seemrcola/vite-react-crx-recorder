@@ -5,6 +5,9 @@ import {ConfigProvider} from 'antd'
 import zhCN from 'antd/lib/locale/zh_CN'
 import 'virtual:uno.css'
 
+// for dev
+import '~/content/index.tsx'
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ConfigProvider locale={zhCN}>
