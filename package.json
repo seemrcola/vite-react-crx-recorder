@@ -1,0 +1,38 @@
+{
+  "name": "vite-react-crx",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite -c vite.popup.config.js",
+    "build:content": "tsc && vite build -c vite.content.config.ts",
+    "build:popup": "tsc && vite build -c vite.popup.config.ts",
+    "build:background": "tsc && vite build -c vite.background.config.ts",
+    "build": "npm run build:content && npm run build:popup && npm run build:background",
+    "merge": "node --loader ts-node/esm build.mts"
+  },
+  "dependencies": {
+    "antd": "^5.12.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "unocss": "^0.58.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "@iconify/react": "^4.1.1",
+    "@types/chrome": "^0.0.254",
+    "@types/node": "^20.10.5",
+    "@types/uuid": "^9.0.7",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
+  }
+}
