@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@unocss/reset':
+    specifier: ^0.58.2
+    version: 0.58.2
   antd:
     specifier: ^5.12.5
     version: 5.12.5(react-dom@18.2.0)(react@18.2.0)

@@ -1,0 +1,31 @@
+
+.hoverButton {
+  height: 48px;
+  border-radius: 32px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  background-color: #363341;
+  cursor: pointer;
+  transition: 300ms;
+  margin: 16px 0;
+}
+
+.startButton {
+  height: 48px;
+  border-radius: 32px;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: #3b8597;
+  transition: 300ms;
+  cursor: pointer;
+  margin-top: 16px;
+}
+.startButton:hover {
+  transform: scale(1.05);
+  background-color: #f90;
+}

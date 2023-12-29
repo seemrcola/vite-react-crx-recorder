@@ -36,6 +36,13 @@
       "css": ["content.css"],
       "run_at": "document_end"
     }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": [ "insert.js" ],
+      "matches":  ["<all_urls>"]
+    }
   ]
 }
 

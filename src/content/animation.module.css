@@ -1,0 +1,45 @@
+/* 用于动画的css文件 */
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.smooth_slideInDown {
+  animation: slideInDown 0.2s ease-out;
+}
+
+@keyframes slideLft {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.smooth_slideInLeft {
+  animation: slideLft 0.4s ease-out;
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.smooth_slideInRight {
+  animation: slideRight 0.4s ease-out;
+}

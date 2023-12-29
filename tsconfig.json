@@ -23,7 +23,7 @@
   "include": ["src"],
   "path": {
     "~/*": [
-      "./src/*"
+      "/src/*"
     ]
   },
   "references": [{ "path": "./tsconfig.node.json" }]

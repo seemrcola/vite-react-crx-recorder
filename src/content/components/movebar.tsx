@@ -181,7 +181,7 @@ const Movebar: React.FC<MovebarProps> = ({toggleRecordBox}) => {
   
   return (
     <>
-      <div ref={movebarRef} className="rounded-full p-4 fixed z-[2147483647]">
+      <div ref={movebarRef} className="rounded-full p-4 fixed z-[2147483647] cursor-pointer">
         {/*上下左右放置四个小盒子 -- 参考loom*/}
         {Object.keys(shadows).map((item, index) => {
           return (
@@ -220,7 +220,7 @@ const Movebar: React.FC<MovebarProps> = ({toggleRecordBox}) => {
       <div
         ref={borderRef}
         className="
-          opacity-0 transition-[300]
+          opacity-0 transition-[300] z-[2147483646]
           box-border border-[8px] border-solid border-[#f60]
           fixed left-0 top-0
           pointer-events-none
@@ -238,7 +238,7 @@ const Movebar: React.FC<MovebarProps> = ({toggleRecordBox}) => {
             className={`
               movebar-shadow-${index}
               rounded-[4px] bg-blue-500
-              fixed opacity-0
+              fixed opacity-0 z-[2147483647]
               pointer-events-none
               ${item === "left" || item === "top" ? "left-0 top-0" : "right-0 bottom-0"}
               ${item === "left" || item === "right" ? "h-[32px] w-[8px]" : "w-[32px] h-[8px]"}
