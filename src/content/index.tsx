@@ -6,7 +6,6 @@ import {Options} from "./components/options";
 import "virtual:uno.css"
 import '@unocss/reset/normalize.css'
 
-
 const GoogleSidebar = () => {
   const [showRecordBox, setShowRecordBox] = useState(false)
   const [cameraDevices, setCameraDevices] = useState<MediaDeviceInfo[]>([])

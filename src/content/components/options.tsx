@@ -96,9 +96,10 @@ export const Options: React.FC<ConfigCardProps> =
                 <Icon
                   icon={iconState.video ? "gg:camera" : "majesticons:camera-off-line"}
                   className={`
-                  text-2xl hover:text-orange-400 hover:scale-125 transition-[300]
-                  ${iconState.video ? "text-white" : "text-red-500"}
-              `}
+                    text-2xl hover:text-orange-400 hover:scale-125 transition-[300]
+                    pointer-events-none
+                    ${iconState.video ? "text-white" : "text-red-500"}
+                  `}
                   onClick={(e) => toggle("video", e)}
                 />
                 <div className="text-white mx-8 max-w-[100px] truncate">
@@ -114,9 +115,10 @@ export const Options: React.FC<ConfigCardProps> =
                 <Icon
                   icon={iconState.audio ? "ph:microphone-bold" : "iconamoon:microphone-off"}
                   className={`
-                  text-2xl hover:text-orange-400 hover:scale-125 transition-[300]
-                  ${iconState.audio ? "text-white" : "text-red-500"}
-              `}
+                    text-2xl hover:text-orange-400 hover:scale-125 transition-[300]
+                    pointer-events-none
+                    ${iconState.audio ? "text-white" : "text-red-500"}
+                  `}
                   onClick={(e) => toggle("audio", e)}
                 />
                 <div className="text-white mx-8 max-w-[100px] truncate">
