@@ -1,1 +1,1 @@
-"use strict";chrome.runtime.onInstalled.addListener(()=>{console.log("onInstalled....")});
+"use strict";chrome.runtime.onInstalled.addListener(()=>{console.log("onInstalled....")});chrome.runtime.onMessage.addListener((e,o,n)=>{console.log("onMessage....",e,o,n),n("我是后台，我已收到你的消息："+JSON.stringify(e))});

@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react"
+import {useRef, useState} from "react"
 import ReactDOM from "react-dom/client"
 import Movebar from "./components/movebar";
 import Bubble from "./components/bubble";
@@ -6,33 +6,31 @@ import {Options} from "./components/options";
 import "virtual:uno.css"
 import '@unocss/reset/normalize.css'
 
+const Kbps = 1000
+
 const GoogleSidebar = () => {
   const [showRecordBox, setShowRecordBox] = useState(false)
-  const [cameraDevices, setCameraDevices] = useState<MediaDeviceInfo[]>([])
-  const [microphoneDevices, setMicrophoneDevices] = useState<MediaDeviceInfo[]>([])
   const [cameraMicrophoneStream, setCameraMicrophoneStream] = useState<null | MediaStream>(null)
   const [displayStream, setDisplayStream] = useState<null | MediaStream>(null)
   const recordData = useRef<any[]>([])
   const mediaRecorder = useRef<MediaRecorder>()
   const [start, setStart] = useState(false)
   
+  // 录制器参数
+  const options = useRef({
+    video: 1000 * Kbps, audio: 128 * Kbps
+  })
+  // 与popup通信
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    console.log(request, sender)
+    options.current = request
+    sendResponse('ok')
+  })
+  
   async function toggleRecordBox() {
     setShowRecordBox(!showRecordBox)
     getCameraMicrophone(!showRecordBox)
   }
-  
-  useEffect(() => {
-    getCameraDevices()
-    
-    // 枚举电脑摄像头设备
-    async function getCameraDevices() {
-      const devices = await navigator.mediaDevices.enumerateDevices()
-      devices.forEach(device => {
-        if (device.kind === 'videoinput') setCameraDevices([...cameraDevices, device])
-        if (device.kind === 'audioinput') setMicrophoneDevices([...microphoneDevices, device])
-      })
-    }
-  }, []);
   
   async function getCameraMicrophone(recordBoxShow: boolean) {
     if (!recordBoxShow) {
@@ -75,8 +73,8 @@ const GoogleSidebar = () => {
       // 开启录制器
       mediaRecorder.current = new MediaRecorder(stream, {
         mimeType: 'video/webm; codecs=vp9',
-        videoBitsPerSecond: 3000000, // 视频码率
-        audioBitsPerSecond: 128000,  // 音频码率
+        videoBitsPerSecond: options.current.video, // 视频码率
+        audioBitsPerSecond: options.current.audio,  // 音频码率
       })
       const recorder = mediaRecorder.current
       recorder.start(1000)
@@ -122,8 +120,6 @@ const GoogleSidebar = () => {
             start={start}
           />
           <Options
-            cameraDevices={cameraDevices}
-            microphoneDevices={microphoneDevices}
             toggleStreamState={toggleStreamState}
             startRecord={startRecord}
             start={start}
