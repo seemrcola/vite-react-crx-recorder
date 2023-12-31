@@ -4,9 +4,13 @@ import Movebar from "./components/movebar";
 import Bubble from "./components/bubble";
 import {Options} from "./components/options";
 import "virtual:uno.css"
-import '@unocss/reset/normalize.css'
+
+import './index.module.css'
+import './reset.module.scss'
 
 const Kbps = 1000
+
+const isDev = process.env.NODE_ENV === 'development'
 
 const GoogleSidebar = () => {
   const [showRecordBox, setShowRecordBox] = useState(false)
@@ -21,7 +25,7 @@ const GoogleSidebar = () => {
     video: 1000 * Kbps, audio: 128 * Kbps
   })
   // 与popup通信
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  !isDev && chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log(request, sender)
     options.current = request
     sendResponse('ok')

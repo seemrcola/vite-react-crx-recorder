@@ -51,3 +51,4 @@ pnpm merge
 ### tips
 build.mts和globalConfig.mts之所以使用mts，原因如下：
 https://github.com/TypeStrong/ts-node/issues/2094
+

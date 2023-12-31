@@ -36,7 +36,7 @@ const Bubble: React.FC<RecordBoxProps>
         <video
           autoPlay playsInline muted
           ref={videoRef}
-          className="object-cover w-full h-full transform scale-x-[-1]"
+          className="object-cover w-full h-full transform !scale-x-[-1]"
         />
       </div>
       <div
