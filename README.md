@@ -52,3 +52,5 @@ pnpm merge
 build.mts和globalConfig.mts之所以使用mts，原因如下：
 https://github.com/TypeStrong/ts-node/issues/2094
 
+为了避免收到宿主页面的样式影响，可以在content_scripts中使用shadow dom。但当前是使用了reset.css文件来处理。  
+同时，为避免rem带来的影响，统一使用px作为单位。
