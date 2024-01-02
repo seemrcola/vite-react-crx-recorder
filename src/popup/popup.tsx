@@ -1,7 +1,7 @@
 import {Icon} from '@iconify/react';
 import css from './popup.module.css'
 import React, {useState, useRef} from "react";
-import {Select, Tag} from "antd";
+import {Select, Tag, Button} from "antd";
 
 const Kbps = 1000
 
@@ -39,6 +39,27 @@ const Popup: React.FC = () => {
     })
   }
   
+  function screenCapture() {
+    // 当前屏幕截图
+    // get windowId
+    chrome.windows.getCurrent(function(window) {
+      const windowId = window.id
+      chrome.tabs.captureVisibleTab(windowId as number, {format: 'png'}, function(dataUrl) {
+        downloadImage(dataUrl, '当前页面截图.png')
+      })
+    })
+  }
+  
+  function downloadImage(url: string, name: string) {
+    // a标签下载
+    const a = document.createElement('a')
+    a.download = name
+    a.href = url
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+  }
+  
   return (
     <div className={css.wrapper}>
       <header className={`
@@ -58,7 +79,10 @@ const Popup: React.FC = () => {
         </div>
       </div>
       <main>
-        {tab === 'snapshot' && <div>snapshot</div>}
+        {
+          tab === 'snapshot' &&
+          <Button className={'w-full my-[10px]'} onClick={screenCapture}>截取当前屏幕</Button>
+        }
         {
           tab === 'recorder' &&
           <div className={'text-sm'}>
