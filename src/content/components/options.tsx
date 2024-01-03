@@ -40,8 +40,8 @@ export const Options: React.FC<ConfigCardProps> =
             ref={dragBoxRef}
             className={`
               ${animationText.smooth_slideInLeft}
-              fixed top-[20px] right-[20px] p-4
-              border bg-[#212121] z-[100]
+              fixed top-[20px] right-[20px] z-[100]
+              border bg-[#212121] p-[16px] font-size-[16px]
               h-[420px] w-[280px] rounded-[16px]
             `}
             onMouseDown={handleMouseDown}
@@ -49,8 +49,9 @@ export const Options: React.FC<ConfigCardProps> =
             <div className={cssText.hoverButton}>
               <Icon
                 icon={iconState.video ? "gg:camera" : "majesticons:camera-off-line"}
+                width={'24'} height={'24'}
                 className={`
-                  text-2xl hover:text-orange-400 hover:scale-125 transition-300
+                  hover:text-orange-400 hover:scale-125 transition-300
                   ${iconState.video ? "text-white" : "text-red-500"}
                 `}
                 onClick={() => toggle("video")}
@@ -62,6 +63,7 @@ export const Options: React.FC<ConfigCardProps> =
             <div className={cssText.hoverButton}>
               <Icon
                 icon={iconState.audio ? "ph:microphone-bold" : "iconamoon:microphone-off"}
+                width={'24'} height={'24'}
                 className={`
                   text-2xl hover:text-orange-400 hover:scale-125 transition-300
                   ${iconState.audio ? "text-white" : "text-red-500"}
