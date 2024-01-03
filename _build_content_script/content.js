@@ -231,8 +231,8 @@ You might need to use a local HTTP server (instead of file://): https://reactjs.
             h-[40px] w-[40px] text-[#9797a4] rounded-full pointer-events-none
           `})})]})},Of={hoverButton:"_hoverButton_66c1k_1",startButton:"_startButton_66c1k_14"},kE=({toggleStreamState:f,startRecord:p,start:h})=>{const b=et.useRef(null),[g,E]=et.useState({video:!0,audio:!0}),{handleMouseDown:c}=ym(b);function A(k){E({...g,[k]:!g[k]}),f(k,!g[k])}return Ge.jsx(Ge.Fragment,{children:!h&&Ge.jsxs("div",{ref:b,className:`
               ${mm.smooth_slideInLeft}
-              fixed top-[20px] right-[20px] z-[100]
-              border bg-[#212121] p-[16px] font-size-[16px]
+              fixed top-[20px] right-[20px] z-[2147483647]
+              bg-[#212121] p-[16px] font-size-[16px]
               h-[420px] w-[280px] rounded-[16px]
             `,onMouseDown:c,children:[Ge.jsxs("div",{className:Of.hoverButton,children:[Ge.jsx(Kl,{icon:g.video?"gg:camera":"majesticons:camera-off-line",width:"24",height:"24",className:`
                   hover:text-orange-400 hover:scale-125 transition-300
