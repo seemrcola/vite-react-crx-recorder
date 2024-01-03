@@ -14,7 +14,7 @@ export default defineConfig({
     outDir: BACKGROUND_SCRIPT_BUILD_DIR,
     lib: {
       entry: path.resolve(cwd(), 'src/background/index.ts'),
-      formats: ['cjs'], // content script 只能用 cjs
+      formats: ['cjs'], // 因为background.js中没有使用导入导出语法，所以这里也是可以使用cjs的
       fileName: () => 'background.js', // 生成的文件名为content.js 不设置的话后缀会是cjs
     },
   },

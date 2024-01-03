@@ -31,7 +31,7 @@ const GoogleSidebar = () => {
     sendResponse('ok')
   })
   
-  async function toggleRecordBox() {
+  async function toggleRecordBoxHandler() {
     setShowRecordBox(!showRecordBox)
     getCameraMicrophone(!showRecordBox)
   }
@@ -50,7 +50,7 @@ const GoogleSidebar = () => {
     return true
   }
   
-  function toggleStreamState(type: string, state: boolean) {
+  function toggleStreamStateHandler(type: string, state: boolean) {
     if (type === 'audio') {
       cameraMicrophoneStream?.getAudioTracks().forEach(track => {
         track.enabled = state
@@ -63,7 +63,7 @@ const GoogleSidebar = () => {
     }
   }
   
-  async function startRecord(state: boolean) {
+  async function startRecordHandler(state: boolean) {
     setStart(state)
     if (state) {
       let stream: MediaStream
@@ -115,17 +115,17 @@ const GoogleSidebar = () => {
   
   return (
     <>
-      <Movebar toggleRecordBox={toggleRecordBox}/>
+      <Movebar toggleRecordBox={toggleRecordBoxHandler}/>
       {showRecordBox &&
         <div>
           <Bubble
             cameraMicrophoneStream={cameraMicrophoneStream}
-            startRecord={startRecord}
+            startRecord={startRecordHandler}
             start={start}
           />
           <Options
-            toggleStreamState={toggleStreamState}
-            startRecord={startRecord}
+            toggleStreamState={toggleStreamStateHandler}
+            startRecord={startRecordHandler}
             start={start}
           />
         </div>
