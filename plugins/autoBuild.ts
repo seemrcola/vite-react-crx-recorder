@@ -3,35 +3,27 @@ import chokidar from 'chokidar';
 import {spawn} from "child_process";
 
 function watchDevFile(dir: string) {
-  chokidar.watch(`src/${dir}/**`).on('all', (event) => {
-    // 监听文件改变
-    if(event === 'change') {
-      // 开一个子进程来执行打包命令
-      const buildProcess = spawn('pnpm', ['run', `build:${dir}`]);
+  const watcher = chokidar.watch(`src/${dir}/**`).on('change', () => {
+    // 开一个子进程来执行打包命令
+    const buildProcess = spawn('pnpm', ['run', `build:${dir}`]);
+    // 打印子进程的输出/错误/退出
+    buildProcess.stdout.on('data', (data) => console.log(data.toString()));
+    buildProcess.stderr.on('data', (data) => console.error(data.toString()));
+    
+    buildProcess.on('exit', (code) => {
+      if(code !== 0) return console.error('--<<<<<--打包失败-->>>>>---');
+      // 执行完打包命令之后，执行合并命令
+      const mergeProcess = spawn('pnpm', ['run', 'merge']);
       // 打印子进程的输出/错误/退出
-      buildProcess.stdout.on('data', (data) => {
-        console.log(data.toString());
-      });
-      buildProcess.stderr.on('data', (data) => {
-        console.error(data.toString());
-      });
-      buildProcess.on('exit', (code) => {
-        console.log(`子进程退出，退出码 ${code}`);
-        if(code !== 0) return console.error('打包失败');
-        // 执行完打包命令之后，执行合并命令
-        const mergeProcess = spawn('pnpm', ['run', 'merge']);
-        // 打印子进程的输出/错误/退出
-        mergeProcess.stdout.on('data', (data) => {
-          console.log(data.toString());
-        });
-        mergeProcess.stderr.on('data', (data) => {
-          console.error(data.toString());
-        });
-        mergeProcess.on('exit', (code) => {
-          console.log(`子进程退出，退出码 ${code}`);
-        });
-      });
-    }
+      mergeProcess.stdout.on('data', (data) => console.log(data.toString()));
+      mergeProcess.stderr.on('data', (data) => console.error(data.toString()));
+      mergeProcess.on('exit', (code) => console.log(`子进程退出，退出码 ${code}`));
+    });
+  });
+  
+  process.on('SIGINT', () => {
+    watcher.close();
+    process.exit(0);
   });
 }
 
