@@ -58,3 +58,6 @@ https://github.com/TypeStrong/ts-node/issues/2094
 
 为了避免收到宿主页面的样式影响，可以在content_scripts中使用shadow dom。但当前是使用了reset.css文件来处理。  
 同时，为避免rem带来的影响，统一使用px作为单位。
+
+### bug
+当在plugins/autoBuild.ts中保存几次文件之后，再去打包就会多个打包进行在跑，这个问题暂时还没解决。
