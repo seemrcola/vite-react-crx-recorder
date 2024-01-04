@@ -27,7 +27,8 @@
     "storage",
     "activeTab",
     "scripting",
-    "tabs"
+    "tabs",
+    "desktopCapture"
   ],
 
   "content_scripts": [

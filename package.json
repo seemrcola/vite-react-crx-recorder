@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite -c vite.popup.config.js",
+    "dev:popup": "vite -c vite.popup.config.js",
+    "dev:content": "vite -c vite.content.config.js",
+    "dev:background": "vite -c vite.background.config.js",
     "build:content": "tsc && vite build -c vite.content.config.ts",
     "build:popup": "tsc && vite build -c vite.popup.config.ts",
     "build:background": "tsc && vite build -c vite.background.config.ts",
@@ -16,7 +18,7 @@
     "antd": "^5.12.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "unocss": "^0.58.2",
+    "unocss": "^0.58.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -29,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "chokidar": "^3.5.3",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",

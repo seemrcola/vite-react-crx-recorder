@@ -2,13 +2,15 @@ import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
 import {cwd} from 'node:process';
+import UnoCSS from 'unocss/vite'
+import viteAutoBuild from "./plugins/autoBuild.ts";
 
 import {BACKGROUND_SCRIPT_BUILD_DIR} from "./globalConfig.mts";
 
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [UnoCSS(), react(), viteAutoBuild({dir: 'background'})],
   
   build: {
     outDir: BACKGROUND_SCRIPT_BUILD_DIR,

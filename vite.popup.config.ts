@@ -5,8 +5,6 @@ import path from 'node:path'
 import {cwd} from 'node:process';
 import UnoCSS from "unocss/vite";
 
-console.log(cwd(), '----')
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [UnoCSS(), react()],

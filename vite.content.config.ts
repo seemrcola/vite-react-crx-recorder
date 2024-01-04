@@ -3,12 +3,13 @@ import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
 import {cwd} from 'node:process';
 import UnoCSS from 'unocss/vite'
+import ViteAutoBuild from "./plugins/autoBuild.ts";
 
 import {CONTENT_SCRIPT_BUILD_DIR} from "./globalConfig.mts";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [UnoCSS(), react()],
+  plugins: [UnoCSS(), react(), ViteAutoBuild({dir: 'content'})],
   
   build: {
     outDir: CONTENT_SCRIPT_BUILD_DIR,
