@@ -48,9 +48,15 @@ pnpm merge
 ```
 将打包后的文件合并到build目录下。
 
+### 开发体验
+目前的开发体验是，可以在热更新的情况下进行UI开发。但是在涉及到插件api的情况下，需要进行打包之后进行调试。
+针对打包我做了自动build，但是体验还是不会很好，后续看能不能想到一个更优的方案。
+
 ### tips
 build.mts和globalConfig.mts之所以使用mts，原因如下：
 https://github.com/TypeStrong/ts-node/issues/2094
 
 为了避免收到宿主页面的样式影响，可以在content_scripts中使用shadow dom。但当前是使用了reset.css文件来处理。  
 同时，为避免rem带来的影响，统一使用px作为单位。
+
+
