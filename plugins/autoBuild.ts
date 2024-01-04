@@ -21,6 +21,7 @@ function watchDevFile(dir: string) {
     });
   });
   
+  // 监听进程退出 当进程退出的时候，关闭监听器
   process.on('SIGINT', () => {
     watcher.close();
     process.exit(0);
