@@ -4,14 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev:popup": "vite -c vite.popup.config.js",
-    "dev:content": "vite -c vite.content.config.js",
-    "dev:background": "vite -c vite.background.config.js",
-    "build:content": "tsc && vite build -c vite.content.config.ts",
-    "build:popup": "tsc && vite build -c vite.popup.config.ts",
-    "build:background": "tsc && vite build -c vite.background.config.ts",
-    "build:all": "npm run build:content && npm run build:popup && npm run build:background",
-    "merge": "node --loader ts-node/esm build.mts"
+    "dev": "npm run build -- --watch",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@unocss/reset": "^0.58.2",
