@@ -19,12 +19,12 @@ export default defineConfig({
       output: {
         entryFileNames: '[name].js',
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name?.startsWith('__')) {
-            // 删掉前两个下划线__ (unocss的文件有这个问题) 否则浏览器插件环境不识别
-            return `assets/${assetInfo.name.slice(2)}`
-          }
-          return '[name].[ext]'
-        }
+          const name = assetInfo.name as string
+          // chrome插件不允许__开头的文件名
+          if(name.startsWith('__')) return `${name.slice(2)}`
+          return `${name}`
+        },
+        chunkFileNames: 'chunk/[name].js',
       },
     },
   },
