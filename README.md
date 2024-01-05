@@ -25,10 +25,10 @@ pnpm build
 ```
 
 ### tips
-ts-node的一个问题，做个记录：
+1. ts-node的一个问题，做个记录：  
 https://github.com/TypeStrong/ts-node/issues/2094
 
-为了避免收到宿主页面的样式影响，可以在content_scripts中使用shadow dom。但当前是使用了reset.css文件来处理。  
+2. 为了避免收到宿主页面的样式影响，可以在content_scripts中使用shadow dom。但当前是使用了reset.css文件来处理。
 同时，为避免rem带来的影响，统一使用px作为单位。
 
 ### bug
