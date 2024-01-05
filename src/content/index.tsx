@@ -10,8 +10,6 @@ import './reset.module.scss'
 
 const Kbps = 1000
 
-const isDev = process.env.NODE_ENV === 'development'
-
 const GoogleSidebar = () => {
   const [showRecordBox, setShowRecordBox] = useState(false)
   const [cameraMicrophoneStream, setCameraMicrophoneStream] = useState<null | MediaStream>(null)
@@ -25,7 +23,7 @@ const GoogleSidebar = () => {
     video: 1000 * Kbps, audio: 128 * Kbps
   })
   // 与popup通信
-  !isDev && chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log(request, sender)
     options.current = request
     sendResponse('ok')
