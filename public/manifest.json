@@ -28,7 +28,9 @@
     "activeTab",
     "scripting",
     "tabs",
-    "desktopCapture"
+    "desktopCapture",
+    "contextMenus",
+    "management"
   ],
 
   "content_scripts": [

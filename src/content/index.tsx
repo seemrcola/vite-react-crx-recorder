@@ -143,7 +143,7 @@ document.body.appendChild(app)
 const root = ReactDOM.createRoot(document.getElementById(id)!)
 root.render(<GoogleSidebar/>)
 
-// 向目标页面注入js
+// todo 向目标页面注入js
 try {
   const insertScript = document.createElement('script')
   insertScript.setAttribute('type', 'text/javascript')
