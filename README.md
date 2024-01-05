@@ -32,4 +32,4 @@ https://github.com/TypeStrong/ts-node/issues/2094
 同时，为避免rem带来的影响，统一使用px作为单位。
 
 ### bug
-
+浏览器插件环境不支持esm，但是content.js中使用了esm。
