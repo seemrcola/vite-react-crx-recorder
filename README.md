@@ -25,7 +25,7 @@ pnpm build
 ```
 
 ### reload
-目前reload插件通过的是contxetMenu来做的，暂时没有想到更好的办法。
+目前reload插件通过的是contextMenu来做的，暂时没有想到更好的办法。
 
 ### tips
 1. ts-node的一个问题，做个记录：  

@@ -1,6 +1,6 @@
-import {Icon} from "@iconify/react"
 import React, {useEffect, useRef} from "react"
 import animationText from "../animation.module.css"
+import cssText from "../index.module.css"
 
 // fixme: ~/hooks/useDrag 无法使用
 import {useDrag} from "../../hooks/useDrag"
@@ -32,7 +32,7 @@ const Bubble: React.FC<RecordBoxProps>
       `}
       onMouseDown={handleMouseDown}>
       <div
-        className="w-full h-full rounded-full bg-red-300 overflow-hidden cursor-pointer">
+        className="w-full h-full rounded-full bg-red-100 overflow-hidden cursor-pointer">
         <video
           autoPlay playsInline muted
           ref={videoRef}
@@ -40,24 +40,15 @@ const Bubble: React.FC<RecordBoxProps>
         />
       </div>
       <div
-        className="
-          p-[4px]
-          rounded-full border-[2px] border-[#8c8c8d]
-          flex items-center bg-[#212121] cursor-pointer
-          absolute bottom-4 right-0 transform translate-x-[100%]
-        "
+        className={`
+          ${!start ? 'bg-blue-400' : 'bg-red-400'}
+          ${cssText.controls}
+        `}
         onClick={() => start && startRecord(false)}
-      >
-        <Icon
-          icon={!start ? "gg:play-stop-o" : "fluent:record-stop-16-regular"}
-          className={`
-            ${!start ? 'text-blue-400' : 'text-red-400'}
-            h-[40px] w-[40px] text-[#9797a4] rounded-full pointer-events-none
-          `}
-        />
-      </div>
+      />
     </div>
   )
 }
 
 export default Bubble
+

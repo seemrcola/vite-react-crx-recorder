@@ -29,3 +29,20 @@
   transform: scale(1.05);
   background-color: #f90;
 }
+
+.controls {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  bottom: 5px;
+  right: -20px;
+  box-shadow:
+          0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+  border-radius: 50%;
+  transition: 300ms;
+  cursor: pointer;
+}
+.controls:hover {
+  transform: scale(1.2);
+}

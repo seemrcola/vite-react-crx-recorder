@@ -42,7 +42,7 @@ export const Options: React.FC<ConfigCardProps> =
               ${animationText.smooth_slideInLeft}
               fixed top-[20px] right-[20px] z-[2147483647]
               bg-[#212121] p-[16px] font-size-[16px]
-              h-[420px] w-[280px] rounded-[16px]
+              h-[400px] w-[240px] rounded-[16px]
             `}
             onMouseDown={handleMouseDown}
           >

@@ -9,11 +9,10 @@ export default defineConfig({
   plugins: [UnoCSS(), react()],
   
   build: {
-    outDir: 'dist/crx',
+    outDir: 'dist/content_crx',
     rollupOptions: {
       input: {
-        main: 'index.html',
-        background: 'src/background/index.ts',
+        content: 'src/content/index.tsx',
       },
       output: {
         entryFileNames: '[name].js',
