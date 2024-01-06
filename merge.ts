@@ -16,6 +16,7 @@ function copyDir(src: string, dist: string) {
     // 如果是目录则递归调用自身
     if (stat.isDirectory()) copyDir(_src, _dist);
   });
+  console.log('copy success');
 }
 
 copyDir(CONTENT_CRX, CRX)

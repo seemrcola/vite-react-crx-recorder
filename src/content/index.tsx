@@ -141,13 +141,14 @@ document.body.appendChild(app)
 const root = ReactDOM.createRoot(document.getElementById(id)!)
 root.render(<GoogleSidebar/>)
 
-// todo 向目标页面注入js
+// todo 向目标页面注入js js文件目前只是一个简单的console.log
 try {
   const insertScript = document.createElement('script')
   insertScript.setAttribute('type', 'text/javascript')
   insertScript.src = chrome.runtime.getURL('insert.js')
   document.body.appendChild(insertScript)
 } catch (err) {
-  console.log(err)
+  console.log('[crx insert error:]' + err)
 }
+
 

@@ -3,10 +3,15 @@ import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
 import {cwd} from 'node:process';
 import UnoCSS from "unocss/vite";
+import VitePluginMerge from "./plugin/autoMerge";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [UnoCSS(), react()],
+  plugins: [
+    UnoCSS(),
+    react(),
+    VitePluginMerge(),
+  ],
   
   build: {
     outDir: 'dist/content_crx',
