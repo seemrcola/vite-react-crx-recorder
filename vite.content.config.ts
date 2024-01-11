@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
 import {cwd} from 'node:process';
 import UnoCSS from "unocss/vite";
-import VitePluginMerge from "./plugin/autoMerge";
+import buildEndAutoMerge from './plugin/buildEndAutoMerge'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,12 +12,12 @@ export default defineConfig({
       mode: 'shadow-dom'
     }),
     react(),
-    VitePluginMerge(),
   ],
   
   build: {
     outDir: 'dist/content_crx',
     rollupOptions: {
+      plugins: [buildEndAutoMerge()],
       input: {
         content: 'src/content/index.tsx',
       },
