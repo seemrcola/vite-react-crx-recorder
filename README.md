@@ -31,8 +31,7 @@ pnpm build
 1. ts-node的一个问题，做个记录：  
 https://github.com/TypeStrong/ts-node/issues/2094
 
-2. 为了避免收到宿主页面的样式影响，可以在content_scripts中使用shadow dom。但当前是使用了reset.css文件来处理。
-同时，为避免rem带来的影响，统一使用px作为单位。
+2. 为了避免收到宿主页面的样式影响，在content_scripts中使用了shadow-dom
 
 ### bug
 1. [x] 浏览器插件环境不支持esm，但是content.js中使用了esm。(fixed: 单独打包content 缺点：需手动merge)
