@@ -3,14 +3,10 @@ import ReactDOM from "react-dom/client"
 import Movebar from "./components/movebar";
 import Bubble from "./components/bubble";
 import {Options} from "./components/options";
-import "virtual:uno.css"
-
-import './index.module.css'
-import './reset.module.scss'
 
 const Kbps = 1000
 
-const GoogleSidebar = () => {
+const Recorder = () => {
   const [showRecordBox, setShowRecordBox] = useState(false)
   const [cameraMicrophoneStream, setCameraMicrophoneStream] = useState<null | MediaStream>(null)
   const [displayStream, setDisplayStream] = useState<null | MediaStream>(null)
@@ -132,16 +128,15 @@ const GoogleSidebar = () => {
   )
 }
 
-export default GoogleSidebar
+export default Recorder
 
-const app = document.createElement('div')
-const id = '--crx--content--'
-app.id = id
-document.body.appendChild(app)
-const root = ReactDOM.createRoot(document.getElementById(id)!)
-root.render(<GoogleSidebar/>)
+const host = document.createElement('div')
+document.body.append(host)
+const shadowRoot = host.attachShadow({mode: 'open'})
+const widgetRoot = ReactDOM.createRoot(shadowRoot)
+widgetRoot.render(<Recorder/>)
 
-// todo 向目标页面注入js js文件目前只是一个简单的console.log
+// todo 向目标页面注入js
 try {
   const insertScript = document.createElement('script')
   insertScript.setAttribute('type', 'text/javascript')
@@ -151,4 +146,23 @@ try {
   console.log('[crx insert error:]' + err)
 }
 
+// todo 向目标页面注入unocss
+try {
+  const style = document.createElement('style')
+  style.innerText = `@unocss-placeholder`
+  shadowRoot.appendChild(style)
+}catch (err) {
+  console.log('[crx insert error:]' + err)
+}
 
+// todo 向目标页面注入css
+try {
+  const insertCss = document.createElement('link')
+  insertCss.setAttribute('rel', 'stylesheet')
+  insertCss.setAttribute('type', 'text/css')
+  insertCss.href = chrome.runtime.getURL('content.css')
+  // 插入到shadowRoot中
+  shadowRoot.appendChild(insertCss)
+}catch (err) {
+  console.log('[crx insert error:]' + err)
+}

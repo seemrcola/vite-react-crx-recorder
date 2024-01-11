@@ -1,3 +1,35 @@
+.wrapper {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2147483647;
+  background-color: #212121;
+  padding: 16px;
+  font-size: 16px;
+  height: 400px;
+  width: 240px;
+  border-radius: 16px;
+}
+
+.icon {
+  transition: 300ms;
+  cursor: pointer;
+  margin-right: 20px;
+}
+.icon:hover {
+  transform: scale(1.2);
+  color: #f90 !important;
+}
+
+.text {
+  color: white;
+  margin-left: 8px;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .hoverButton {
   height: 48px;
   border-radius: 32px;
@@ -28,21 +60,4 @@
 .startButton:hover {
   transform: scale(1.05);
   background-color: #f90;
-}
-
-.controls {
-  height: 40px;
-  width: 40px;
-  position: absolute;
-  bottom: 5px;
-  right: -20px;
-  box-shadow:
-          0 10px 15px -3px rgb(0 0 0 / 0.1),
-          0 4px 6px -4px rgb(0 0 0 / 0.1);
-  border-radius: 50%;
-  transition: 300ms;
-  cursor: pointer;
-}
-.controls:hover {
-  transform: scale(1.2);
 }

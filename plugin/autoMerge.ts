@@ -8,13 +8,13 @@ function watchFile() {
   watcher && watcher.close()
   
   watcher = chokidar.watch(
-    'dist/content_crnotyhing',
+    'dist/content_crx/**/*',
     {
-      ignored: /(^|[/\\])\../, // 忽略以点开头的文件（例如，.git 文件夹）
       persistent: true, // 监听是否持久性的，设为 false 表示只监听一次
     }
   )
-  watcher.on('all', () => {
+  watcher.on('all', () => { // 监听所有事件
+    console.log('ooooooo')
     // 触发合并
     const mergeSpawn = spawn('npm', ['run', 'merge'])
     mergeSpawn.stdout.on('data', (data) => {

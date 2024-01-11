@@ -1,5 +1,6 @@
 import {Icon} from "@iconify/react"
 import React, {useEffect, useRef, useState} from "react"
+import cssMovebar from "./movebar.module.css"
 
 /**
  * @param cb 回调函数
@@ -181,7 +182,7 @@ const Movebar: React.FC<MovebarProps> = ({toggleRecordBox}) => {
   
   return (
     <>
-      <div ref={movebarRef} className="rounded-full p-[16px] fixed z-[2147483647] cursor-pointer">
+      <div ref={movebarRef} className={`${cssMovebar.wrapper}`}>
         {/*上下左右放置四个小盒子 -- 参考loom*/}
         {Object.keys(shadows).map((item, index) => {
           return (
@@ -189,12 +190,11 @@ const Movebar: React.FC<MovebarProps> = ({toggleRecordBox}) => {
               key={`drag-${index}`}
               className={`
                 drag-${index}
-                h-[16px] w-[16px] absolute
-                rounded-[4px] bg-blue-500 cursor-pointer
-                ${item === "left" ? "left-0 top-[50%] translate-y-[-50%]" : ""}
-                ${item === "right" ? "right-0 top-[50%] translate-y-[-50%]" : ""}
-                ${item === "top" ? "top-0 left-[50%] translate-x-[-50%]" : ""}
-                ${item === "bottom" ? "bottom-0 left-[50%] translate-x-[-50%]" : ""}
+                ${cssMovebar.drag}
+                ${item === "left" ? cssMovebar.left : ""}
+                ${item === "right" ? cssMovebar.right : ""}
+                ${item === "top" ? cssMovebar.top : ""}
+                ${item === "bottom" ? cssMovebar.bottom : ""}
               `}
               style={{display: direction === item ? "block" : "none"}}
               onMouseDown={(e) => mousedownHandler(e)}
@@ -202,29 +202,17 @@ const Movebar: React.FC<MovebarProps> = ({toggleRecordBox}) => {
           )
         })}
         <div
-          className="
-            w-[52px] h-[52px]
-            flex items-center justify-center
-            box-border
-            border-2 border-solid border-amber-500
-            bg-amber-100 rounded-full p-[8px]
-          "
+          className={`${cssMovebar.iconBox}`}
           title={"点击前往录制页面"}>
           <Icon
-            icon="icon-park:movie"
-            width="32" height="32"
+            icon="icon-park:movie" width="32" height="32"
             onClick={toggle}
           />
         </div>
       </div>
       <div
         ref={borderRef}
-        className="
-          opacity-0 transition-[300] z-[2147483646]
-          box-border border-[8px] border-solid border-[#f60]
-          fixed left-0 top-0
-          pointer-events-none
-        "
+        className={`${cssMovebar.screenBorder}`}
         style={{
           width: innerSize.width,
           height: innerSize.height
@@ -237,11 +225,11 @@ const Movebar: React.FC<MovebarProps> = ({toggleRecordBox}) => {
             ref={shadows[item as keyof typeof shadows]}
             className={`
               movebar-shadow-${index}
-              rounded-[4px] bg-blue-500
-              fixed opacity-0 z-[2147483647]
-              pointer-events-none
-              ${item === "left" || item === "top" ? "left-0 top-0" : "right-0 bottom-0"}
-              ${item === "left" || item === "right" ? "h-[32px] w-[8px]" : "w-[32px] h-[8px]"}
+              ${cssMovebar.shadow}
+              ${item === "left" ? cssMovebar.shadowLeft : ""}
+              ${item === "right" ? cssMovebar.shadowRight : ""}
+              ${item === "top" ? cssMovebar.shadowTop : ""}
+              ${item === "bottom" ? cssMovebar.shadowBottom : ""}
             `}
           />
         )

@@ -2,7 +2,7 @@ import {Icon} from "@iconify/react"
 import React, {useRef, useState} from "react"
 
 import animationText from "../animation.module.css"
-import cssText from "../index.module.css"
+import cssOptions from './options.module.css'
 
 // fixme: ~/hooks/useDrag 无法使用
 import {useDrag} from "../../hooks/useDrag"
@@ -40,42 +40,36 @@ export const Options: React.FC<ConfigCardProps> =
             ref={dragBoxRef}
             className={`
               ${animationText.smooth_slideInLeft}
-              fixed top-[20px] right-[20px] z-[2147483647]
-              bg-[#212121] p-[16px] font-size-[16px]
-              h-[400px] w-[240px] rounded-[16px]
+              ${cssOptions.wrapper}
             `}
             onMouseDown={handleMouseDown}
           >
-            <div className={cssText.hoverButton}>
+            <div className={cssOptions.hoverButton}>
               <Icon
                 icon={iconState.video ? "gg:camera" : "majesticons:camera-off-line"}
                 width={'24'} height={'24'}
-                className={`
-                  hover:text-orange-400 hover:scale-125 transition-300
-                  ${iconState.video ? "text-white" : "text-red-500"}
-                `}
+                className={` ${cssOptions.icon}`}
+                style={{color: iconState.video ? "white" : "red"}}
                 onClick={() => toggle("video")}
               />
-              <div className="text-white mx-8 max-w-[100px] truncate">
+              <div className={`${cssOptions.text}`}>
                 Camera
               </div>
             </div>
-            <div className={cssText.hoverButton}>
+            <div className={cssOptions.hoverButton}>
               <Icon
                 icon={iconState.audio ? "ph:microphone-bold" : "iconamoon:microphone-off"}
                 width={'24'} height={'24'}
-                className={`
-                  text-2xl hover:text-orange-400 hover:scale-125 transition-300
-                  ${iconState.audio ? "text-white" : "text-red-500"}
-                `}
+                className={`${cssOptions.icon}`}
+                style={{color: iconState.audio ? "white" : "red"}}
                 onClick={() => toggle("audio")}
               />
-              <div className="text-white mx-8 max-w-[100px] truncate">
+              <div className={`${cssOptions.text}`}>
                 Microphone
               </div>
             </div>
             <div
-              className={cssText.startButton}
+              className={cssOptions.startButton}
               onClick={() => startRecord(true)}
             >
               Start Recording

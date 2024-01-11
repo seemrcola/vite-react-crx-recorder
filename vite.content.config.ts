@@ -8,7 +8,9 @@ import VitePluginMerge from "./plugin/autoMerge";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    UnoCSS(),
+    UnoCSS({
+      mode: 'shadow-dom'
+    }),
     react(),
     VitePluginMerge(),
   ],
@@ -27,7 +29,6 @@ export default defineConfig({
           if(name.startsWith('__')) return `${name.slice(2)}`
           return `${name}`
         },
-        chunkFileNames: 'chunk/[name].js',
       },
     },
   },

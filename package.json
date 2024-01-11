@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm run build:main -- --watch",
     "dev:content": "npm run build:content -- --watch",
-    "build": "npm run all build:*",
+    "build": "npm-run-all build:*",
     "build:main": "tsc && vite build",
     "build:content": "tsc && vite build -c vite.content.config.ts",
     "merge": "node --loader ts-node/esm merge.ts",
