@@ -1,5 +1,6 @@
 // https://cn.rollupjs.org/plugin-development/#buildend
 import {spawn} from "child_process";
+import chalk from "chalk";
 
 export default function buildEndAutoMerge () {
   return {
@@ -14,8 +15,9 @@ export default function buildEndAutoMerge () {
         console.error(`stderr: ${data}`);
       });
       mergeSpawn.on('close', () => {
-        console.log('%c merge success', 'color: green')
-        console.log('%c build success', 'color: green')
+        console.log(chalk.blue.bold('🍻🍻🍻 rollup重新打包成功'));
+        console.log(chalk.blue.bold('👏👏👏 content子包合并成功'));
+        console.log(chalk.blue.bold('🎆🎆🎆 浏览器刷新即可看到最新效果'));
       })
     }
   }
