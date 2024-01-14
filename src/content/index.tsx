@@ -113,14 +113,14 @@ const Recorder = () => {
       {showRecordBox &&
         <div>
           <Bubble
+            start={start}
             cameraMicrophoneStream={cameraMicrophoneStream}
             startRecord={startRecordHandler}
-            start={start}
           />
           <Options
+            start={start}
             toggleStreamState={toggleStreamStateHandler}
             startRecord={startRecordHandler}
-            start={start}
           />
         </div>
       }
