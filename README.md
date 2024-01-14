@@ -28,8 +28,7 @@ pnpm build
 目前reload插件通过的是contextMenu来做的，暂时没有想到更好的办法。
 
 ### tips
-1. ts-node的一个问题，做个记录：  
-https://github.com/TypeStrong/ts-node/issues/2094
+1. ts-node的一个问题，做个记录：https://github.com/TypeStrong/ts-node/issues/2094
 
 2. 为了避免收到宿主页面的样式影响，在content_scripts中使用了shadow-dom
 
