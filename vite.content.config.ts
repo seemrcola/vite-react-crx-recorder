@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
 import {cwd} from 'node:process';
 import UnoCSS from "unocss/vite";
-import buildEndAutoMerge from './plugin/buildEndAutoMerge'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,20 +14,18 @@ export default defineConfig({
   ],
   
   build: {
-    outDir: 'dist/content_crx',
+    emptyOutDir: false,
+    
+    lib: {
+      entry: 'src/content/index.tsx',
+      name: 'content',
+      formats: ['iife'],
+    },
+    
     rollupOptions: {
-      plugins: [buildEndAutoMerge()],
-      input: {
-        content: 'src/content/index.tsx',
-      },
       output: {
-        entryFileNames: '[name].js',
-        assetFileNames: (assetInfo) => {
-          const name = assetInfo.name as string
-          // chrome插件不允许__开头的文件名
-          if(name.startsWith('__')) return `${name.slice(2)}`
-          return `${name}`
-        },
+        entryFileNames: 'content.js',
+        assetFileNames: 'content.css',
       },
     },
   },
@@ -37,5 +34,9 @@ export default defineConfig({
     alias: {
       '~': path.resolve(cwd(), 'src'),
     }
+  },
+  
+  define: {
+    'process.env.NODE_ENV': null,
   }
 })
