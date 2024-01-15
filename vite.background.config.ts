@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import path from "node:path";
 import {cwd} from "node:process";
+import buildEnd from './plugin/buildEnd'
 
 export default defineConfig({
   build: {
@@ -11,6 +12,7 @@ export default defineConfig({
       formats: ['iife'],
     },
     rollupOptions: {
+      plugins: [buildEnd()],
       output: {
         entryFileNames: 'background.js',
       },

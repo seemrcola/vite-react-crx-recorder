@@ -12,6 +12,7 @@ function rafDebounce(cb: () => void, queue: any[]) {
   queue.push(cb)
   requestAnimationFrame(() => {
     if (queue.length !== 0) {
+      console.log(queue.length)
       const lastCallback = queue.pop()
       lastCallback && lastCallback()
       queue.length = 0

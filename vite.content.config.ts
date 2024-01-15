@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
 import {cwd} from 'node:process';
 import UnoCSS from "unocss/vite";
+import buildEnd from './plugin/buildEnd';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -23,6 +24,7 @@ export default defineConfig({
     },
     
     rollupOptions: {
+      plugins: [buildEnd()],
       output: {
         entryFileNames: 'content.js',
         assetFileNames: 'content.css',
