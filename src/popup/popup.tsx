@@ -5,12 +5,6 @@ import {Select, Tag, Button} from "antd";
 
 const Kbps = 1000
 
-chrome.runtime.onMessage.addListener(function(request) {
-  if(request === 'openCustomPage') {
-    window.open(chrome.runtime.getURL('custom.html'))
-  }
-})
-
 const Popup: React.FC = () => {
   const [tab, setTab] = useState<'snapshot'|'recorder'>('recorder')
   const [options, setOptions] = useState({

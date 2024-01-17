@@ -21,7 +21,6 @@ const Recorder = () => {
   
   // 与popup通信 传递参数 更改录制设置
   chrome.runtime.onMessage.addListener(function(request) {
-    console.log(request, 'request')
     if(request.action === 'recordParams') {
       options.current = request.data
     }
@@ -100,8 +99,9 @@ const Recorder = () => {
   }
   
   function openCustomPage() {
-    // 给插件发送消息
-    chrome.runtime.sendMessage({action: 'openCustomPage'})
+    // todo 打开一个新页面
+    const url = chrome.runtime.getURL('custom.html')
+    window.open(url, '_blank')
   }
   
   function downloadRecord() {
