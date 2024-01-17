@@ -44,7 +44,11 @@
 
   "web_accessible_resources": [
     {
-      "resources": [ "insert.js", "content.css" ],
+      "resources": [
+        "insert.js",
+        "content.css",
+        "custom.html"
+      ],
       "matches":  ["<all_urls>"]
     }
   ]

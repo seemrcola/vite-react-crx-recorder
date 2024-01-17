@@ -1,4 +1,4 @@
-import {useRef, useState} from "react"
+import React, {useRef, useState} from "react"
 import ReactDOM from "react-dom/client"
 import Movebar from "./components/movebar";
 import Bubble from "./components/bubble";
@@ -6,7 +6,7 @@ import {Options} from "./components/options";
 
 const Kbps = 1000
 
-const Recorder = () => {
+const Recorder: React.FC = () => {
   const [showRecordBox, setShowRecordBox] = useState(false)
   const [cameraMicrophoneStream, setCameraMicrophoneStream] = useState<null | MediaStream>(null)
   const [displayStream, setDisplayStream] = useState<null | MediaStream>(null)
@@ -99,7 +99,6 @@ const Recorder = () => {
   }
   
   function openCustomPage() {
-    // todo 打开一个新页面
     const url = chrome.runtime.getURL('custom.html')
     window.open(url, '_blank')
   }
@@ -120,6 +119,7 @@ const Recorder = () => {
   return (
     <>
       <Movebar toggleRecordBox={toggleRecordBoxHandler}/>
+      <div className={'b bg-orange text-light'} onClick={openCustomPage}>click me</div>
       {showRecordBox &&
         <div>
           <Bubble
