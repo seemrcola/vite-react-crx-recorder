@@ -5,7 +5,6 @@ import {ConfigProvider} from 'antd'
 import zhCN from 'antd/lib/locale/zh_CN'
 
 import 'virtual:uno.css'
-import '@unocss/reset/normalize.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

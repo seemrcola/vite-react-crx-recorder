@@ -13,7 +13,14 @@ export default defineConfig({
     emptyOutDir: false,
     rollupOptions: {
       plugins: [buildEnd('popup')],
-    }
+      input: {
+        popup: 'index.html',
+        custom: 'custom.html',
+      },
+      output:{
+        // ⚠️ 如果文件夹的名字存在__开头的名字，是不能通过浏览器插件的检查的
+      }
+    },
   },
   
   resolve: {

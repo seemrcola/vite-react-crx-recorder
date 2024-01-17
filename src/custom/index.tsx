@@ -6,13 +6,12 @@ import zhCN from 'antd/lib/locale/zh_CN'
 import Player from './components/player.tsx'
 
 import 'virtual:uno.css'
-import '@unocss/reset/normalize.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ConfigProvider locale={zhCN}>
       <Player />
-      <div>hello world</div>
+      <div>hello world!!</div>
     </ConfigProvider>
   </React.StrictMode>
 )
