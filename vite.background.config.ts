@@ -12,7 +12,7 @@ export default defineConfig({
       formats: ['iife'],
     },
     rollupOptions: {
-      plugins: [buildEnd()],
+      plugins: [buildEnd('background')],
       output: {
         entryFileNames: 'background.js',
       },

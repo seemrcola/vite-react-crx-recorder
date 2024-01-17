@@ -1,13 +1,19 @@
 import {Icon} from '@iconify/react';
 import css from './popup.module.css'
-import React, {useState, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import {Select, Tag, Button} from "antd";
 
 const Kbps = 1000
 
+chrome.runtime.onMessage.addListener(function(request) {
+  if(request === 'openCustomPage') {
+    window.open(chrome.runtime.getURL('custom.html'))
+  }
+})
+
 const Popup: React.FC = () => {
   const [tab, setTab] = useState<'snapshot'|'recorder'>('recorder')
-  const options = useRef({
+  const [options, setOptions] = useState({
     video: 1000 * Kbps, audio: 128 * Kbps
   })
   const optionsVideo = [
@@ -29,15 +35,37 @@ const Popup: React.FC = () => {
   
   function select(value: any, type: 'video'|'audio') {
     // 与content-script通信
+    setOptions({...options, [type]: value})
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(
         tabs[0].id as number,
-        {...options.current, [type]: value},
-        function(response) {
-          console.log(response)
+        {data: {...options, [type]: value}, action: 'recordParams'}
+      )
+    })
+    // 存入本地
+    chrome.storage.local.set({recordParams: {...options, [type]: value}})
+  }
+  
+  function initParams() {
+    // 从本地获取录制器参数
+    chrome.storage.local.get(['recordParams'], function(result) {
+      if (result.recordParams) {
+        setOptions(result.recordParams) // 修改录制器参数
+        chrome.tabs.query(              // 与content-script通信 通知其修改录制器参数
+          {active: true, currentWindow: true},
+          function(tabs) {
+            chrome.tabs.sendMessage(
+              tabs[0].id as number,
+              {data: {...result.recordParams}, action: 'recordParams'}
+            )
         })
+      }
     })
   }
+  
+  useEffect(() => {
+    initParams()
+  }, []);
   
   function screenCapture() {
     // 当前屏幕截图
@@ -45,7 +73,7 @@ const Popup: React.FC = () => {
     chrome.windows.getCurrent(function(window) {
       const windowId = window.id
       chrome.tabs.captureVisibleTab(windowId as number, {format: 'png'}, function(dataUrl) {
-        downloadImage(dataUrl, '当前页面截图.png')
+        downloadImage(dataUrl, 'current-page.png')
       })
     })
   }
@@ -90,7 +118,7 @@ const Popup: React.FC = () => {
               <div className={'my-2px p-1 bg-light'}>视频清晰度</div>
               <Select
                 className={'w-full'}
-                defaultValue={'默认'}
+                value={options.video}
                 options={optionsVideo}
                 onSelect={(value) => select(value, 'video')}
               />
@@ -99,7 +127,7 @@ const Popup: React.FC = () => {
               <div className={'my-2px p-1 bg-light'}>音频采样</div>
               <Select
                 className={'w-full'}
-                defaultValue={'默认'}
+                value={options.audio}
                 options={optionsAudio}
                 onSelect={(value) => select(value, 'audio')}
               />

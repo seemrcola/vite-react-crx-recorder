@@ -18,11 +18,13 @@ const Recorder = () => {
   const options = useRef({
     video: 1000 * Kbps, audio: 128 * Kbps
   })
-  // 与popup通信
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    console.log(request, sender)
-    options.current = request
-    sendResponse('ok')
+  
+  // 与popup通信 传递参数 更改录制设置
+  chrome.runtime.onMessage.addListener(function(request) {
+    console.log(request, 'request')
+    if(request.action === 'recordParams') {
+      options.current = request.data
+    }
   })
   
   async function toggleRecordBoxHandler() {
@@ -88,10 +90,18 @@ const Recorder = () => {
         // 关闭全部流
         displayStream?.getTracks().forEach(track => track.stop())
         setDisplayStream(null)
+        
+        // todo 打开一个新页面
+        openCustomPage()
       }
       return
     }
     mediaRecorder.current?.stop()
+  }
+  
+  function openCustomPage() {
+    // 给插件发送消息
+    chrome.runtime.sendMessage({action: 'openCustomPage'})
   }
   
   function downloadRecord() {
