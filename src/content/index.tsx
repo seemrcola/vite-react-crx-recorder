@@ -90,7 +90,7 @@ const Recorder: React.FC = () => {
         displayStream?.getTracks().forEach(track => track.stop())
         setDisplayStream(null)
         
-        // todo 打开一个新页面
+        // 打开一个新页面
         openCustomPage()
       }
       return
@@ -103,7 +103,7 @@ const Recorder: React.FC = () => {
     window.open(url, '_blank')
   }
   
-  function downloadRecord() {
+  async function downloadRecord() {
     const blob = new Blob(recordData.current, {type: 'video/webm'})
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')

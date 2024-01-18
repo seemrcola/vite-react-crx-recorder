@@ -1,31 +1,34 @@
 import React, {useEffect} from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
-
-console.log(videojs, '-----')
+import '@videojs/themes/dist/sea/index.css';
 
 const Player:React.FC = () => {
+  function initPlayer(url: string) {
+    videojs('player', {
+      sources:[
+        {
+          src: url,
+          type: 'video/webm'
+        }
+      ],
+    });
+  }
+  
   useEffect(() => {
-    const player = videojs('player', {});
-    console.log(player, '-----')
-  })
+    initPlayer('http://vjs.zencdn.net/v/oceans.mp4')
+  }, [])
+  
   return (
     <div>
       <video
         id="player"
-        className="video-js"
+        className="video-js vjs-theme-sea"
         controls
         preload="auto"
         width="1000"
         height="600"
-        poster="http://vjs.zencdn.net/v/oceans.png"
-      >
-        <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"/>
-        <p className="vjs-no-js">
-          如果想使用video.js，请确保浏览器可以运行JavaScript，并且支持
-          <a href="https://videojs.com/html5-video-support/" target="_blank">HTML5 video</a>
-        </p>
-      </video>
+      />
     </div>
   )
 }
