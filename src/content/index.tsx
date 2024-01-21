@@ -76,20 +76,30 @@ const Recorder: React.FC = () => {
         audioBitsPerSecond: options.current.audio,  // 音频码率
       })
       const recorder = mediaRecorder.current
-      recorder.start(1000)
+      recorder.start(5000)
       recorder.ondataavailable = (e) => {
         recordData.current.push(e.data)
+        // 告诉background一声
+        // 1. 首先将数据转成base64
+        // 2. 发送给background
+        // 3. background接收到数据后将其转成blob
+        const reader = new FileReader()
+        reader.readAsDataURL(e.data)
+        reader.onload = () => {
+          chrome.runtime.sendMessage({action: 'recordData', data: reader.result})
+        }
       }
       recorder.onstop = () => {
+        // 当录制结束时 剩下的数据会自动push到recordData中
         setStart(false)
         // 关闭录制流
         recorder.stream.getTracks().forEach(track => track.stop())
-        // 下载录制文件
-        downloadRecord()
         // 关闭全部流
         displayStream?.getTracks().forEach(track => track.stop())
         setDisplayStream(null)
         
+        // 下载录制文件
+        downloadRecord()
         // 打开一个新页面
         openCustomPage()
       }

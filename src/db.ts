@@ -1,17 +1,17 @@
 import Dexie, {Table} from "dexie";
 
-interface Record {
+interface RecordData {
   name: string;
-  url: string;
+  data: any;
 }
 
 class RecordDatabase extends Dexie {
-  public record!: Table<Record, number>;
+  public recordData!: Table<RecordData, number>;
   
   public constructor() {
     super("RecordDatabase");
     this.version(1).stores({
-      record: "++id, name, url"
+      recordData: "++id, name, data"
     });
   }
 }
