@@ -3,6 +3,7 @@ import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import '@videojs/themes/dist/sea/index.css';
 import db from '../../db'
+import './player.css'
 
 type Player = ReturnType<typeof videojs>
 

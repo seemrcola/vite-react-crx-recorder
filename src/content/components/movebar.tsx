@@ -100,7 +100,7 @@ const Movebar: React.FC<MovebarProps> = ({toggleRecordBox}) => {
       // 更新start
       start = {startX: clientX, startY: clientY}
       // 阴影
-      adsorb(false)
+      adsorb()
     }
     rafDebounce(task, tasks) // 优化性能
   }
@@ -120,6 +120,7 @@ const Movebar: React.FC<MovebarProps> = ({toggleRecordBox}) => {
   }
   
   // 放开鼠标的时候，我们需要根据屏幕对角线的中心点，将屏幕分成四个部分，判断元素在哪个部分，然后移动到对应的边
+  // 这个吸附函数包含两个作用 1.计算元素倒影 2.移动元素实现吸附效果 使用ifMove来判断是否需要移动元素
   function adsorb(ifMove = false) {
     // 1. 获取元素的中心点
     const {
@@ -165,10 +166,12 @@ const Movebar: React.FC<MovebarProps> = ({toggleRecordBox}) => {
     requestAnimationFrame(() => {
       if (position === "right")
         movebarRef.current!.style.left = `${document.documentElement.clientWidth - width}px`
-      if (position === "left") movebarRef.current!.style.left = `0px`
-      if (position === "top") movebarRef.current!.style.top = `0px`
       if (position === "bottom")
         movebarRef.current!.style.top = `${document.documentElement.clientHeight - height}px`
+      if (position === "left")
+        movebarRef.current!.style.left = `0px`
+      if (position === "top")
+        movebarRef.current!.style.top = `0px`
     })
     // 3.5. 去掉动画
     setTimeout(() => {
