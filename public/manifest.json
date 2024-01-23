@@ -24,8 +24,6 @@
   },
 
   "permissions": [
-    "window",
-    "console",
     "storage",
     "activeTab",
     "scripting",
