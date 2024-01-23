@@ -129,7 +129,6 @@ const Recorder: React.FC = () => {
   return (
     <>
       <Movebar toggleRecordBox={toggleRecordBoxHandler}/>
-      <div className={'b bg-orange text-light'} onClick={openCustomPage}>click me</div>
       {showRecordBox &&
         <div>
           <Bubble
