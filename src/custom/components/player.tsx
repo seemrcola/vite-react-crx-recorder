@@ -10,16 +10,17 @@ type Player = ReturnType<typeof videojs>
 const Player:React.FC = () => {
   const player = useRef<Player>()
   
-  function initPlayer(url: string) {
+  function initPlayer(url: string, mime: string) {
     // 销毁实例
     if (player.current) {
       player.current.dispose()
     }
+    // 初始化实例
     player.current = videojs('player', {
       sources:[
         {
           src: url,
-          type: 'video/webm'
+          type: mime
         }
       ],
     });
@@ -28,23 +29,30 @@ const Player:React.FC = () => {
   function getRecordData() {
     db.table('recordData').toArray().then((recordData: any[]) => {
       // 将所有的base64拿到转成blob
-      const allBase64 = recordData.map(item => item.data)
-      const allBlob = allBase64.map(item => {
-        const byteString = atob(item.split(',')[1])
-        const mimeString = item.split(',')[0].split(':')[1].split(';')[0]
+      let mime = ''
+      
+      const allBlob = recordData.map(item => {
+        const data = item.data
+        
+        const [prefix, base64] = data.split(',')
+        const byteString = atob(base64)
+        const mimeString = prefix.split(':')[1].split(';')[0]
+        
         const ab = new ArrayBuffer(byteString.length)
         const ia = new Uint8Array(ab)
         for (let i = 0; i < byteString.length; i++) {
           ia[i] = byteString.charCodeAt(i)
         }
+        
+        mime = mimeString
         return new Blob([ab], {type: mimeString})
       })
       // 合成一个blob
-      const blob = new Blob(allBlob, {type: 'video/webm'})
+      const blob = new Blob(allBlob, {type: mime})
       // 生成url
       const url = URL.createObjectURL(blob)
       // 初始化播放器
-      initPlayer(url)
+      initPlayer(url, mime)
     })
   }
   

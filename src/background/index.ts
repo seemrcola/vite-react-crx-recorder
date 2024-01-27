@@ -27,8 +27,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
 /********************************* for record *********************************/
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log('request', request, sender, sendResponse)
+chrome.runtime.onMessage.addListener((request) => {
   if(request.action === 'recordData') {
     console.log(request.data, 'request')
     // todo 保存录制数据
@@ -37,7 +36,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 })
 
 function recordDataHandler(data: any) {
-  console.log('-----')
   db.recordData.add({'name': 'recordData', 'data': data})
 }
 

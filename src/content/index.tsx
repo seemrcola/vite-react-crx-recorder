@@ -3,16 +3,19 @@ import ReactDOM from "react-dom/client"
 import Movebar from "./components/movebar";
 import Bubble from "./components/bubble";
 import {Options} from "./components/options";
+import { useRecorder } from '../hooks/useRecorder.ts'
 
 const Kbps = 1000
+type UseRecorderResult = ReturnType<typeof useRecorder>
 
 const Recorder: React.FC = () => {
   const [showRecordBox, setShowRecordBox] = useState(false)
   const [cameraMicrophoneStream, setCameraMicrophoneStream] = useState<null | MediaStream>(null)
-  const [displayStream, setDisplayStream] = useState<null | MediaStream>(null)
   const recordData = useRef<any[]>([])
-  const mediaRecorder = useRef<MediaRecorder>()
   const [start, setStart] = useState(false)
+  
+  const Recorder = useRef<UseRecorderResult>({} as UseRecorderResult)
+  Recorder.current = useRecorder(5000)
   
   // 录制器参数
   const options = useRef({
@@ -60,6 +63,7 @@ const Recorder: React.FC = () => {
   
   async function startRecordHandler(state: boolean) {
     setStart(state)
+    
     if (state) {
       let stream: MediaStream
       try {
@@ -68,16 +72,20 @@ const Recorder: React.FC = () => {
         setStart(false)
         return
       }
-      setDisplayStream(stream)
+      
       // 开启录制器
-      mediaRecorder.current = new MediaRecorder(stream, {
+      // fixme: 合成的流无法使用video标签播放
+      const audioStream = await navigator.mediaDevices.getUserMedia({audio: true})
+      const [audioTrack] = audioStream.getAudioTracks()
+      const [videoTrack] = stream.getVideoTracks()
+      const recorderStream = new MediaStream([videoTrack, audioTrack])
+      // fixme: 无法使用video标签播放
+      Recorder.current.startRecording(recorderStream, {
         mimeType: 'video/webm; codecs=vp9',
         videoBitsPerSecond: options.current.video, // 视频码率
         audioBitsPerSecond: options.current.audio,  // 音频码率
       })
-      const recorder = mediaRecorder.current
-      recorder.start(5000)
-      recorder.ondataavailable = (e) => {
+      Recorder.current.addDataAvailableCallback((e) => {
         recordData.current.push(e.data)
         // 告诉background一声
         // 1. 首先将数据转成base64
@@ -88,42 +96,19 @@ const Recorder: React.FC = () => {
         reader.onload = () => {
           chrome.runtime.sendMessage({action: 'recordData', data: reader.result})
         }
-      }
-      recorder.onstop = () => {
-        // 当录制结束时 剩下的数据会自动push到recordData中
+      })
+      Recorder.current.addStopCallback(() => {
         setStart(false)
-        // 关闭录制流
-        recorder.stream.getTracks().forEach(track => track.stop())
-        // 关闭全部流
-        displayStream?.getTracks().forEach(track => track.stop())
-        setDisplayStream(null)
-        
-        // 下载录制文件
-        downloadRecord()
-        // 打开一个新页面
         openCustomPage()
-      }
+      })
       return
     }
-    mediaRecorder.current?.stop()
+    Recorder.current.endRecording()
   }
   
   function openCustomPage() {
     const url = chrome.runtime.getURL('custom.html')
     window.open(url, '_blank')
-  }
-  
-  async function downloadRecord() {
-    const blob = new Blob(recordData.current, {type: 'video/webm'})
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'your-record.webm'
-    a.click()
-    // 清空录制数据
-    a.remove()
-    URL.revokeObjectURL(url)
-    recordData.current = []
   }
   
   return (

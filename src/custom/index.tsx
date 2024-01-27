@@ -15,10 +15,8 @@ function clear() {
 
 window.addEventListener('beforeunload', (e) => {
   e.preventDefault()
-  // 标准的确认消息
-  const confirmationMessage = '确定要离开吗？';
   // 设置确认消息
-  e.returnValue = confirmationMessage;
+  e.returnValue = '确定要离开吗？';
   // 清除录制的视频
   db.table('recordData').clear()
 })
