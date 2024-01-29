@@ -10,6 +10,7 @@ const Popup: React.FC = () => {
   const [options, setOptions] = useState({
     video: 1000 * Kbps, audio: 128 * Kbps
   })
+  
   const optionsVideo = [
     {value: 500 * Kbps,  label: '流畅 500Kbps'},
     {value: 1000 * Kbps, label: '标清 1000Kbps (默认)'},
@@ -41,18 +42,9 @@ const Popup: React.FC = () => {
   }
   
   function initParams() {
-    // 从本地获取录制器参数
     chrome.storage.local.get(['recordParams'], function(result) {
       if (result.recordParams) {
-        setOptions(result.recordParams) // 修改录制器参数
-        chrome.tabs.query(              // 与content-script通信 通知其修改录制器参数
-          {active: true, currentWindow: true},
-          function(tabs) {
-            chrome.tabs.sendMessage(
-              tabs[0].id as number,
-              {data: {...result.recordParams}, action: 'recordParams'}
-            )
-        })
+        setOptions(result.recordParams)
       }
     })
   }

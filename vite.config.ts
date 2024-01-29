@@ -16,6 +16,7 @@ export default defineConfig({
       input: {
         popup: 'index.html',
         custom: 'custom.html',
+        frame: 'frame.html'
       },
       output:{
         // ⚠️ 如果文件夹的名字存在__开头的名字，是不能通过浏览器插件的检查的

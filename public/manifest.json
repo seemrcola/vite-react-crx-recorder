@@ -47,7 +47,8 @@
       "resources": [
         "insert.js",
         "content.css",
-        "custom.html"
+        "custom.html",
+        "frame.html"
       ],
       "matches":  ["<all_urls>"]
     }

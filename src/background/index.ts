@@ -1,7 +1,5 @@
 /*global chrome*/
 
-import db from '../db'
-
 chrome.runtime.onInstalled.addListener(() => {
   console.log('onInstalled....')
 })
@@ -27,16 +25,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
 /********************************* for record *********************************/
 
-chrome.runtime.onMessage.addListener((request) => {
-  if(request.action === 'recordData') {
-    console.log(request.data, 'request')
-    // todo 保存录制数据
-    recordDataHandler(request.data)
-  }
+chrome.runtime.onMessage.addListener(() => {
+
 })
-
-function recordDataHandler(data: any) {
-  db.recordData.add({'name': 'recordData', 'data': data})
-}
-
 /********************************* for record *********************************/

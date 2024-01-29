@@ -28,31 +28,9 @@ const Player:React.FC = () => {
   
   function getRecordData() {
     db.table('recordData').toArray().then((recordData: any[]) => {
-      // 将所有的base64拿到转成blob
-      let mime = ''
-      
-      const allBlob = recordData.map(item => {
-        const data = item.data
-        
-        const [prefix, base64] = data.split(',')
-        const byteString = atob(base64)
-        const mimeString = prefix.split(':')[1].split(';')[0]
-        
-        const ab = new ArrayBuffer(byteString.length)
-        const ia = new Uint8Array(ab)
-        for (let i = 0; i < byteString.length; i++) {
-          ia[i] = byteString.charCodeAt(i)
-        }
-        
-        mime = mimeString
-        return new Blob([ab], {type: mimeString})
-      })
-      // 合成一个blob
-      const blob = new Blob(allBlob, {type: mime})
-      // 生成url
-      const url = URL.createObjectURL(blob)
-      // 初始化播放器
-      initPlayer(url, mime)
+      console.log(recordData)
+      // todo 二进制拼接
+      initPlayer('', '')
     })
   }
   
