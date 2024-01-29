@@ -8,7 +8,6 @@ type UseRecorderResult = ReturnType<typeof useRecorder>
 function Start() {
   const Recorder = useRef<UseRecorderResult>({} as UseRecorderResult)
   Recorder.current = useRecorder(5000)
-  const v = useRef<HTMLVideoElement | null>(null)
   
   // 录制器参数
   const options = useRef({
@@ -28,7 +27,12 @@ function Start() {
       let stream: MediaStream
       try {
         stream = await navigator.mediaDevices.getDisplayMedia()
+        // 清空之前的录制
+        db.recordData.clear()
+        // todo 隐藏掉这个frame tab
+        await chrome.runtime.sendMessage({ action: "hideFrameTab" });
       } catch (e) {
+        await chrome.runtime.sendMessage({ action: "removeFrameTab" });
         return console.error(`[crx error] ${e}`)
       }
       
@@ -37,9 +41,6 @@ function Start() {
       const [audioTrack] = audioStream.getAudioTracks()
       const [videoTrack] = stream.getVideoTracks()
       const recorderStream = new MediaStream([videoTrack, audioTrack])
-    
-      v.current!.srcObject = recorderStream
-      v.current!.play()
     
       Recorder.current.startRecording(recorderStream, {
         mimeType: 'video/webm; codecs=vp9',
@@ -51,8 +52,9 @@ function Start() {
           db.recordData.add({'name': 'recordData', 'data': e.data})
         }
       })
-      Recorder.current.addStopCallback(() => {
+      Recorder.current.addStopCallback(async () => {
         openCustomPage()
+        await chrome.runtime.sendMessage({ action: "removeFrameTab" });
       })
   }
   
@@ -65,7 +67,6 @@ function Start() {
     chrome.storage.local.get(['recordParams'], function(result) {
       if (result.recordParams) {
         options.current = {...options.current, ...result.recordParams}
-        console.log(options.current, '-----')
       }
     })
   }
@@ -77,7 +78,9 @@ function Start() {
   
   return (
     <>
-      <video ref={v} className={'w-800px h-520px'} controls autoPlay={true} />
+      <div className={'wh-full bg-auto flex-center'}>
+        hello world
+      </div>
     </>
   )
 }

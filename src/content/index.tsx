@@ -45,16 +45,15 @@ const Recorder: React.FC = () => {
   async function startRecordHandler(state: boolean) {
     setStart(state)
     if(state) {
-      openFramePage()
+      await openFramePage()
       return
     }
-    // 向插件内的自定义页面发送消息
-    chrome.runtime.sendMessage({ action: "stopRecording" });
+    await chrome.runtime.sendMessage({ action: "stopRecording" });
   }
   
-  function openFramePage() {
-    const url = chrome.runtime.getURL('frame.html')
-    window.open(url, '_blank')
+  async function openFramePage() {
+    // 打开frame页面
+    await chrome.runtime.sendMessage({ action: "openFramePage" });
   }
   
   return (
