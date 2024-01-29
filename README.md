@@ -26,12 +26,3 @@ pnpm build
 
 ### reload
 目前reload插件通过的是contextMenu来做的，暂时没有想到更好的办法。
-
-### tips
-1. ts-node的一个问题，做个记录：https://github.com/TypeStrong/ts-node/issues/2094
-
-2. 为了避免收到宿主页面的样式影响，在content_scripts中使用了shadow-dom
-
-### bug
-1. [x] 浏览器插件环境不支持esm，但是content.js中使用了esm。(fixed: 单独打包content 缺点：需手动merge)
-2. [x] 需要手动合并 content_crx 给 crx (fixed: 更改打包方案，使用concurrently来实现)
