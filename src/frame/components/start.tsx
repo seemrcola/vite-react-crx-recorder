@@ -15,6 +15,15 @@ function Start() {
     video: 1000 * Kbps, audio: 128 * Kbps
   })
   
+  // 监听content-script的消息
+  chrome.runtime.onMessage.addListener(
+    function(request) {
+      if (request.action == "stopRecording") {
+        Recorder.current.endRecording()
+      }
+    }
+  )
+  
   async function startRecord() {
       let stream: MediaStream
       try {
@@ -38,7 +47,7 @@ function Start() {
         audioBitsPerSecond: options.current.audio,  // 音频码率
       })
       Recorder.current.addDataAvailableCallback((e: BlobEvent) => {
-        if(e.data) {
+        if(e.data.size > 0) {
           db.recordData.add({'name': 'recordData', 'data': e.data})
         }
       })
@@ -48,7 +57,7 @@ function Start() {
   }
   
   function openCustomPage() {
-    const url = chrome.runtime.getURL('frame.html')
+    const url = chrome.runtime.getURL('custom.html')
     window.open(url, '_blank')
   }
   

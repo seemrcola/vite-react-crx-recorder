@@ -30,7 +30,13 @@ const Player:React.FC = () => {
     db.table('recordData').toArray().then((recordData: any[]) => {
       console.log(recordData)
       // todo 二进制拼接
-      initPlayer('', '')
+      const blob: Blob[] = []
+      recordData.forEach((item: any) => {
+        blob.push(item.data)
+      })
+      const blobData = new Blob(blob, {type: 'video/webm'})
+      const url = URL.createObjectURL(blobData)
+      initPlayer(url, 'video/webm')
     })
   }
   

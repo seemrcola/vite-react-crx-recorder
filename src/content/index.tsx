@@ -46,7 +46,10 @@ const Recorder: React.FC = () => {
     setStart(state)
     if(state) {
       openFramePage()
+      return
     }
+    // 向插件内的自定义页面发送消息
+    chrome.runtime.sendMessage({ action: "stopRecording" });
   }
   
   function openFramePage() {
