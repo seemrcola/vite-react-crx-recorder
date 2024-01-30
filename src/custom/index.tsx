@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {ConfigProvider} from 'antd'
-import zhCN from 'antd/lib/locale/zh_CN'
 import db from '../db'
 
 import Player from './components/player.tsx'
@@ -23,7 +22,7 @@ window.addEventListener('beforeunload', (e) => {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ConfigProvider locale={zhCN}>
+    <ConfigProvider>
       <Player />
     </ConfigProvider>
   </React.StrictMode>
