@@ -41,6 +41,7 @@ function Start() {
       const [audioTrack] = audioStream.getAudioTracks()
       const [videoTrack] = stream.getVideoTracks()
       const recorderStream = new MediaStream([videoTrack, audioTrack])
+      console.log(recorderStream.getTracks(), 're')
     
       Recorder.current.startRecording(recorderStream, {
         mimeType: 'video/webm; codecs=vp9',

@@ -28,8 +28,6 @@ const Player:React.FC = () => {
   
   function getRecordData() {
     db.table('recordData').toArray().then((recordData: any[]) => {
-      console.log(recordData)
-      // todo 二进制拼接
       const blob: Blob[] = []
       recordData.forEach((item: any) => {
         blob.push(item.data)
@@ -46,7 +44,7 @@ const Player:React.FC = () => {
   }, [])
   
   return (
-    <div className={'w-1000px h-600px bg-dark'}>
+    <div className={'w-600px h-360px bg-dark'}>
       <video
         id="player"
         className="video-js vjs-theme-sea w-full h-full"

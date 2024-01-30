@@ -12,17 +12,16 @@ const Popup: React.FC = () => {
   })
   
   const optionsVideo = [
-    {value: 500 * Kbps,  label: '流畅 500Kbps'},
-    {value: 1000 * Kbps, label: '标清 1000Kbps (默认)'},
-    {value: 2000 * Kbps, label: '高清 2000Kbps'},
-    {value: 4000 * Kbps, label: '超清 4000Kbps'},
-    {value: 8000 * Kbps, label: '原画 8000Kbps'}
+    {value: 1000 * Kbps, label: 'HD 1000Kbps (default)'},
+    {value: 2000 * Kbps, label: '2K 2000Kbps'},
+    {value: 4000 * Kbps, label: '4K 4000Kbps'},
+    {value: 8000 * Kbps, label: '8K 8000Kbps'}
   ]
   const optionsAudio = [
-    {value: 128 * Kbps,  label: '标准 128Kbps (默认)'},
-    {value: 192 * Kbps,  label: '高品质 192Kbps'},
-    {value: 320 * Kbps,  label: '无损 320Kbps'}
-  ]
+    { value: 128, label: 'Standard 128Kbps (default)' },
+    { value: 192, label: 'HQ 192Kbps' },
+    { value: 320, label: 'Lossless 320Kbps' }
+  ];
   
   function toggleSetting(tab: 'snapshot'|'recorder') {
     setTab(tab)
@@ -82,26 +81,26 @@ const Popup: React.FC = () => {
         bg-#3b8597
       `}>
         <Icon icon="icon-park:movie" width="32" height="32" />
-        <div className={'text-light text-sm mx-2'}>CRX录像机</div>
+        <div className={'text-light text-sm mx-2'}>CRX Recorder</div>
       </header>
       <div className={'py-1 h-14 flex text-sm b-b'}>
         <div className={`${css.tab} ${tab === 'recorder' ? 'bg-#3b8597 text-light' : ''} `}>
-          <div onClick={() => toggleSetting('recorder')}>录像工具</div>
+          <div onClick={() => toggleSetting('recorder')}>Recorder</div>
         </div>
         <div className={`${css.tab} ${tab === 'snapshot' ? 'bg-#3b8597 text-light' : ''} `}>
-          <div onClick={() => toggleSetting('snapshot')}>截图工具</div>
+          <div onClick={() => toggleSetting('snapshot')}>Screenshot</div>
         </div>
       </div>
       <main>
         {
           tab === 'snapshot' &&
-          <Button className={'w-full my-[10px]'} onClick={screenCapture}>截取当前屏幕</Button>
+          <Button className={'w-full my-[10px]'} onClick={screenCapture}>Catch Screen</Button>
         }
         {
           tab === 'recorder' &&
           <div className={'text-sm'}>
             <label>
-              <div className={'my-2px p-1 bg-light'}>视频清晰度</div>
+              <div className={'my-2px p-1 bg-light'}>Video Quality Adjustment</div>
               <Select
                 className={'w-full'}
                 value={options.video}
@@ -109,8 +108,9 @@ const Popup: React.FC = () => {
                 onSelect={(value) => select(value, 'video')}
               />
             </label>
+            <div h-8></div>
             <label>
-              <div className={'my-2px p-1 bg-light'}>音频采样</div>
+              <div className={'my-2px p-1 bg-light'}>Audio Quality Adjustment</div>
               <Select
                 className={'w-full'}
                 value={options.audio}
@@ -119,7 +119,7 @@ const Popup: React.FC = () => {
               />
             </label>
            <div className={'absolute bottom-6 left-[50%] translate-x-[-50%]'}>
-             <Tag color="#3b8597">点击网页内的浮标开始录制</Tag>
+             <Tag color="#3b8597">Click On The Buoy To Start Recording</Tag>
            </div>
           </div>
         }
