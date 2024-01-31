@@ -18,7 +18,6 @@ const Recorder: React.FC = () => {
   
   async function getCameraMicrophone(recordBoxShow: boolean) {
     if (!recordBoxShow) {
-      console.log('----------------------------------close-----------------------------------')
       cameraMicrophoneStream?.getTracks().forEach(track => track.stop())
       setCameraMicrophoneStream(null)
       return false
@@ -72,13 +71,11 @@ const Recorder: React.FC = () => {
   function init() {
     // 获取是否显示bubble/options框
     chrome.storage.local.get(['showRecordBox'], async function(result) {
-      console.log(result, 'showRecordBox')
       setShowRecordBox(!!result.showRecordBox)
       await getCameraMicrophone(!!result.showRecordBox)
     })
     // 获取是否录制中
     chrome.storage.local.get(['start'], function(result) {
-      console.log(result, 'start')
       setStart(!!result.start)
     })
   }
@@ -87,17 +84,10 @@ const Recorder: React.FC = () => {
     init()
     
     function listener (request: any) {
-      // fixme 接受来自background的消息 自动点击 处理update跳转tab的失焦 当前方案是不生效的
-      if (request.action === "autoClick") {
-        const body = document.querySelector('body')
-        body?.click()
-      }
       if(request.action === 'tabChanged') {
-        console.log('切换tab了')
         init()
       }
       if(request.action === 'closeBubble') {
-        console.log('关闭bubble')
         setShowRecordBox(false)
       }
     }

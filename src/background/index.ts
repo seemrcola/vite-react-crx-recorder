@@ -48,12 +48,10 @@ chrome.runtime.onMessage.addListener(async (request) => {
         chrome.tabs.get(tabId, async (tab) => {
           if(!tab) return
           await chrome.tabs.update(tab.id as number, {active: true})
-          // 给content-script发送消息
-          await chrome.tabs.sendMessage(tab.id as number, {action: 'autoClick', tabId: tabId})
         })
       }
     })
-    // fixme 隐藏frame.html v3 目前好像不允许隐藏
+    // fixme & todo 隐藏frame.html v3 目前好像不允许隐藏
   }
   
   if(request.action === 'removeFrameTab') {
@@ -67,6 +65,19 @@ chrome.runtime.onMessage.addListener(async (request) => {
   if(request.action === 'stopRecording') {
     // 停止录制的时候处理掉录制相关的一些数据
     await chrome.storage.local.remove(['showRecordBox', 'start'])
+    // 刷新所有tab 除了custom Tab
+    // fixme 因为不知道如何实现怎么去掉摄像头的红点 所以暂时在结束的时候做个tab刷新
+    chrome.tabs.query({}, async (tabs) => {
+      for(const tab of tabs) {
+        if(
+          tab.url?.includes('chrome-extension://') ||
+          tab.url?.includes('chrome://') ||
+          tab.url?.includes('chrome-devtools://')
+        )
+          continue
+        await chrome.tabs.reload(tab.id as number)
+      }
+    })
   }
 
 })
