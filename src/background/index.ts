@@ -74,15 +74,28 @@ chrome.runtime.onMessage.addListener(async (request) => {
 
 /********************************* for tab changed *********************************/
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
+  // 获取所有tabs
+  const tabs = await chrome.tabs.query({})
+  console.log(tabs, 'tabs')
   // 当前tabId
   const tabId = activeInfo.tabId
   // 当前tab
   const tab = await chrome.tabs.get(tabId)
-  // 当前tab的url
   const url = tab.url
-  // 当前tab的title
   const title = tab.title
-  console.log('tab changed', tabId, url, title)
   // 通知content-script
-  await chrome.tabs.sendMessage(tabId, {action: 'tabChanged', tabId: tabId, url: url, title: title})
+  for(const tabItem of tabs) {
+    console.log(tabItem.id, tabId, 'tabItem.id, tabId')
+    try{
+      // 如果是当前tab 则通知它tab切换了
+      if(tabItem.id === tabId)
+        await chrome.tabs.sendMessage(tabId, {action: 'tabChanged', tabId: tabId, url: url, title: title})
+      // 如果不是当前tab 则通知它关闭气泡
+      else
+        await chrome.tabs.sendMessage(tabItem.id as number, {action: 'closeBubble'})
+    }
+    catch(e) {
+      console.log(`[crx error] ${e}`)
+    }
+  }
 })

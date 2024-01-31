@@ -18,6 +18,7 @@ const Recorder: React.FC = () => {
   
   async function getCameraMicrophone(recordBoxShow: boolean) {
     if (!recordBoxShow) {
+      console.log('----------------------------------close-----------------------------------')
       cameraMicrophoneStream?.getTracks().forEach(track => track.stop())
       setCameraMicrophoneStream(null)
       return false
@@ -69,7 +70,7 @@ const Recorder: React.FC = () => {
   }
   
   function init() {
-    // 获取是否显示录制框
+    // 获取是否显示bubble/options框
     chrome.storage.local.get(['showRecordBox'], async function(result) {
       console.log(result, 'showRecordBox')
       setShowRecordBox(!!result.showRecordBox)
@@ -95,8 +96,13 @@ const Recorder: React.FC = () => {
         console.log('切换tab了')
         init()
       }
+      if(request.action === 'closeBubble') {
+        console.log('关闭bubble')
+        setShowRecordBox(false)
+      }
     }
     chrome.runtime.onMessage.addListener(listener)
+    
     return () => {
       chrome.runtime.onMessage.removeListener(listener)
     }
