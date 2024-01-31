@@ -18,26 +18,26 @@ const Popup: React.FC = () => {
     {value: 8000 * Kbps, label: '8K 8000Kbps'}
   ]
   const optionsAudio = [
-    { value: 128, label: 'Standard 128Kbps (default)' },
-    { value: 192, label: 'HQ 192Kbps' },
-    { value: 320, label: 'Lossless 320Kbps' }
+    { value: 128 * Kbps, label: 'Standard 128Kbps (default)' },
+    { value: 192 * Kbps, label: 'HQ 192Kbps' },
+    { value: 320 * Kbps, label: 'SQ 320Kbps' }
   ];
   
   function toggleSetting(tab: 'snapshot'|'recorder') {
     setTab(tab)
   }
   
-  function select(value: any, type: 'video'|'audio') {
+  async function select(value: any, type: 'video'|'audio') {
     // 与content-script通信
     setOptions({...options, [type]: value})
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(
+    chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
+      await chrome.tabs.sendMessage(
         tabs[0].id as number,
         {data: {...options, [type]: value}, action: 'recordParams'}
       )
     })
     // 存入本地
-    chrome.storage.local.set({recordParams: {...options, [type]: value}})
+    await chrome.storage.local.set({recordParams: {...options, [type]: value}})
   }
   
   function initParams() {
