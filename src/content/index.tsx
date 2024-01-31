@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import ReactDOM from "react-dom/client"
 import Movebar from "./components/movebar";
 import Bubble from "./components/bubble";
@@ -12,7 +12,8 @@ const Recorder: React.FC = () => {
   
   async function toggleRecordBoxHandler() {
     setShowRecordBox(!showRecordBox)
-    getCameraMicrophone(!showRecordBox)
+    await getCameraMicrophone(!showRecordBox)
+    await chrome.storage.local.set({showRecordBox: !showRecordBox})
   }
   
   async function getCameraMicrophone(recordBoxShow: boolean) {
@@ -21,12 +22,18 @@ const Recorder: React.FC = () => {
       setCameraMicrophoneStream(null)
       return false
     }
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: {width: 300, height: 300},
-      audio: true,
-    })
-    setCameraMicrophoneStream(stream)
-    return true
+    try{
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {width: 300, height: 300},
+        audio: true,
+      })
+      setCameraMicrophoneStream(stream)
+      return true
+    }
+    catch(err) {
+      setShowRecordBox(false) // 如果不允许打开录制 则关闭录制框
+      return false
+    }
   }
   
   function toggleStreamStateHandler(type: string, state: boolean) {
@@ -43,7 +50,12 @@ const Recorder: React.FC = () => {
   }
   
   async function startRecordHandler(state: boolean) {
-    setStart(state)
+    // 做个缓冲
+    setTimeout(async () => {
+      setStart(state)
+      await chrome.storage.local.set({start: state})
+    }, 1000)
+    
     if(state) {
       await openFramePage()
       return
@@ -56,6 +68,40 @@ const Recorder: React.FC = () => {
     await chrome.runtime.sendMessage({ action: "openFramePage" });
   }
   
+  function init() {
+    // 获取是否显示录制框
+    chrome.storage.local.get(['showRecordBox'], async function(result) {
+      console.log(result, 'showRecordBox')
+      setShowRecordBox(!!result.showRecordBox)
+      await getCameraMicrophone(!!result.showRecordBox)
+    })
+    // 获取是否录制中
+    chrome.storage.local.get(['start'], function(result) {
+      console.log(result, 'start')
+      setStart(!!result.start)
+    })
+  }
+  
+  useEffect(() => {
+    init()
+    
+    function listener (request: any) {
+      // fixme 接受来自background的消息 自动点击 处理update跳转tab的失焦 当前方案是不生效的
+      if (request.action === "autoClick") {
+        const body = document.querySelector('body')
+        body?.click()
+      }
+      if(request.action === 'tabChanged') {
+        console.log('切换tab了')
+        init()
+      }
+    }
+    chrome.runtime.onMessage.addListener(listener)
+    return () => {
+      chrome.runtime.onMessage.removeListener(listener)
+    }
+  }, []);
+  
   return (
     <>
       <Movebar toggleRecordBox={toggleRecordBoxHandler}/>
@@ -66,11 +112,13 @@ const Recorder: React.FC = () => {
             cameraMicrophoneStream={cameraMicrophoneStream}
             startRecord={startRecordHandler}
           />
-          <Options
-            start={start}
-            toggleStreamState={toggleStreamStateHandler}
-            startRecord={startRecordHandler}
-          />
+          {
+            !start &&
+            <Options
+              toggleStreamState={toggleStreamStateHandler}
+              startRecord={startRecordHandler}
+            />
+          }
         </div>
       }
     </>

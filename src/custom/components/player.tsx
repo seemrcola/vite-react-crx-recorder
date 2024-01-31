@@ -1,22 +1,20 @@
 import React, {useEffect, useRef} from "react";
-import videojs from "video.js";
+import Videojs from "video.js";
 import "video.js/dist/video-js.css";
 import '@videojs/themes/dist/sea/index.css';
 import db from '../../db'
 import './player.css'
 
-type Player = ReturnType<typeof videojs>
+type Player = ReturnType<typeof Videojs>
 
 const Player:React.FC = () => {
   const player = useRef<Player>()
   
   function initPlayer(url: string, mime: string) {
-    // 销毁实例
     if (player.current) {
       player.current.dispose()
     }
-    // 初始化实例
-    player.current = videojs('player', {
+    player.current = Videojs('player', {
       sources:[
         {
           src: url,
@@ -44,10 +42,10 @@ const Player:React.FC = () => {
   }, [])
   
   return (
-    <div className={'w-600px h-360px bg-dark'}>
+    <div className={'w-800px h-480px bg-dark'}>
       <video
         id="player"
-        className="video-js vjs-theme-sea w-full h-full"
+        className={"video-js vjs-theme-sea w-full h-full"}
         controls
         preload="auto"
       />

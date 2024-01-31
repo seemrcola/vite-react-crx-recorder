@@ -48,10 +48,12 @@ chrome.runtime.onMessage.addListener(async (request) => {
         chrome.tabs.get(tabId, async (tab) => {
           if(!tab) return
           await chrome.tabs.update(tab.id as number, {active: true})
+          // 给content-script发送消息
+          await chrome.tabs.sendMessage(tab.id as number, {action: 'autoClick', tabId: tabId})
         })
       }
     })
-    // todo 隐藏frame.html v3 目前好像不允许隐藏
+    // fixme 隐藏frame.html v3 目前好像不允许隐藏
   }
   
   if(request.action === 'removeFrameTab') {
@@ -61,6 +63,26 @@ chrome.runtime.onMessage.addListener(async (request) => {
       })
     })
   }
+  
+  if(request.action === 'stopRecording') {
+    // 停止录制的时候处理掉录制相关的一些数据
+    await chrome.storage.local.remove(['showRecordBox', 'start'])
+  }
 
 })
 /********************************* for record *********************************/
+
+/********************************* for tab changed *********************************/
+chrome.tabs.onActivated.addListener(async (activeInfo) => {
+  // 当前tabId
+  const tabId = activeInfo.tabId
+  // 当前tab
+  const tab = await chrome.tabs.get(tabId)
+  // 当前tab的url
+  const url = tab.url
+  // 当前tab的title
+  const title = tab.title
+  console.log('tab changed', tabId, url, title)
+  // 通知content-script
+  await chrome.tabs.sendMessage(tabId, {action: 'tabChanged', tabId: tabId, url: url, title: title})
+})

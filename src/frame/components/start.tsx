@@ -29,7 +29,7 @@ function Start() {
         stream = await navigator.mediaDevices.getDisplayMedia()
         // 清空之前的录制
         db.recordData.clear()
-        // todo 隐藏掉这个frame tab
+        // fixme 隐藏掉这个frame tab
         await chrome.runtime.sendMessage({ action: "hideFrameTab" });
       } catch (e) {
         await chrome.runtime.sendMessage({ action: "removeFrameTab" });
