@@ -26,7 +26,11 @@ function Start() {
   async function startRecord() {
       let stream: MediaStream
       try {
-        stream = await navigator.mediaDevices.getDisplayMedia()
+        stream = await navigator.mediaDevices.getDisplayMedia({
+          video: {
+            displaySurface: "monitor" // 捕捉整个屏幕
+          },
+        })
         // 清空之前的录制
         db.recordData.clear()
         // fixme 隐藏掉这个frame tab
