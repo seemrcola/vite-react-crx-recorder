@@ -23,7 +23,9 @@ window.addEventListener('beforeunload', (e) => {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ConfigProvider>
-      <Player />
+      <div className={'w-full h-full flex-center'}>
+        <Player />
+      </div>
     </ConfigProvider>
   </React.StrictMode>
 )
